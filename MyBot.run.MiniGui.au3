@@ -130,8 +130,8 @@ Func _SleepMicro($iMicroSec)
 	;$hStruct_SleepMicro = 0
 EndFunc   ;==>_SleepMicro
 
-Func UpdateBotTitle($sTitle = "My Bot " & $g_sBotVersion)
-	$sTitle = StringReplace($sTitle, "My Bot", "My Bot Mini")
+Func UpdateBotTitle($sTitle = "Builder Hall Bot " & $g_sBotVersion)
+	$sTitle = StringReplace($sTitle, "Builder Hall Bot", "Builder Hall Bot Mini")
 	If $g_sBotTitle = $sTitle Then Return
 	$g_sBotTitle = $sTitle
 	If $g_hFrmBot <> 0 Then

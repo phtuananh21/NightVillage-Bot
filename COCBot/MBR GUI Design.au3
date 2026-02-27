@@ -344,13 +344,19 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 ;~ ------------------------------------------------------
 	GUISwitch($g_hFrmBotEx)
 	$g_hTabMain = GUICtrlCreateTab(5, 85 + $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH - 9, $_GUI_MAIN_HEIGHT - 225) ; , $TCS_MULTILINE)
-	$g_hTabLog = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_01", "Log"))
+	$g_hTabLog = GUICtrlCreateTabItem("Builder Base Log")
 	$g_hTabVillage = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village"))
 	$g_hTabAttack = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Attack Plan"))
 	$g_hTabBot = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_04", "Bot"))
 	$g_hTabAbout = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_05", "About Us"))
 	GUICtrlCreateTabItem("")
 	GUICtrlSetResizing(-1, $GUI_DOCKBORDERS)
+
+	; === BUILDER HALL ONLY MODE: Hide unused tabs ===
+	GUICtrlSetState($g_hTabVillage, $GUI_HIDE)
+	GUICtrlSetState($g_hTabAttack, $GUI_HIDE)
+	GUICtrlSetState($g_hTabAbout, $GUI_HIDE)
+	; ================================================
 
 ;~ -------------------------------------------------------------
 ;~ GUI init

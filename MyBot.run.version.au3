@@ -14,10 +14,10 @@
 #Au3Stripper_Off
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
-#pragma compile(ProductVersion, 1.0.0)
-#pragma compile(FileVersion, 1.0.0)
+#pragma compile(ProductVersion, 1.1.0)
+#pragma compile(FileVersion, 1.1.0)
 #pragma compile(LegalCopyright, © https://mybot.run)
 #Au3Stripper_On
 
-Global $g_sBotVersion = "v1.0.0" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sBotVersion = "v1.1.0" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
 
