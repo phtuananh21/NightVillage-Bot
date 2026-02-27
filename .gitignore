@@ -1,0 +1,17 @@
+# User-specific data
+Profiles/
+BKP/
+Temp/
+
+# Database and logs
+AttackStats.sqlite3
+*.log
+
+# IDE and OS files
+.vscode/
+Thumbs.db
+Desktop.ini
+
+# Compiled binaries (optional, but keeping it clean is better)
+# If you want to push the exes, comment the line below
+# *.exe
