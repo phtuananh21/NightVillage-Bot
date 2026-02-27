@@ -698,34 +698,46 @@ Func runBot() ;Bot that runs everything in order
 
 	$g_bClanGamesCompleted = False
 
-	FirstCheck()
-
 	; ============================================================
 	; BUILDER BASE ONLY MODE
 	; Flow: Confirm Main Village → Switch to Builder Base → Attack infinitely
 	; ============================================================
-
 	SetLog("=== Builder Base Only Mode ===", $COLOR_SUCCESS)
 
-	; Step 1: Confirm we are on Main Village first
-	SetLog("Ensuring we start from Main Village...", $COLOR_INFO)
-	checkMainScreen()
-	If isOnBuilderBase() Then
-		SetLog("Currently on Builder Base. Switching back to Main Village first...", $COLOR_INFO)
-		SwitchBetweenBases(True, False)
-		If _Sleep(2000) Then Return
-		checkMainScreen()
-	EndIf
-	SetLog("Confirmed: On Main Village.", $COLOR_SUCCESS)
-
-	; Step 2: Switch to Builder Base once
-	SetLog("Switching to Builder Base...", $COLOR_INFO)
-	If Not SwitchBetweenBases(True, True) Then
-		SetLog("Failed to switch to Builder Base! Stopping bot.", $COLOR_ERROR)
+	; Step 1: Confirm Main Village screen (no building detection needed)
+	SetLog("Confirming Main Village screen...", $COLOR_INFO)
+	Local $iRetry = 0
+	While $iRetry < 10
+		checkMainScreen(False)
+		If Not $g_bRestart Then ExitLoop
+		$iRetry += 1
+		SetLog("Waiting for Main Screen... (" & $iRetry & "/10)", $COLOR_INFO)
+		If _Sleep(3000) Then Return
+	WEnd
+	If $g_bRestart Then
+		SetLog("Could not confirm Main Screen. Stopping bot.", $COLOR_ERROR)
 		btnStop()
 		Return
 	EndIf
-	SetLog("Now on Builder Base. Starting infinite attack loop...", $COLOR_SUCCESS)
+	SetLog("Main Village confirmed!", $COLOR_SUCCESS)
+
+	; Step 2: Switch to Builder Base
+	SetLog("Switching to Builder Base...", $COLOR_INFO)
+	Local $bSwitched = False
+	For $iTry = 1 To 5
+		If SwitchBetweenBases(True, True) Then
+			$bSwitched = True
+			ExitLoop
+		EndIf
+		SetLog("Retry switch to Builder Base (" & $iTry & "/5)...", $COLOR_WARNING)
+		If _Sleep(3000) Then Return
+	Next
+	If Not $bSwitched Then
+		SetLog("Failed to switch to Builder Base after 5 attempts! Stopping bot.", $COLOR_ERROR)
+		btnStop()
+		Return
+	EndIf
+	SetLog("Now on Builder Base. Starting attack loop...", $COLOR_SUCCESS)
 
 	; Step 3: Infinite attack loop — runs until user presses Stop
 	Local $iBBAttackCount = 0
