@@ -12,6 +12,9 @@
 #include-once
 
 Func BotDetectFirstTime()
+	; === BUILDER BASE ONLY MODE: Skip all building detection ===
+	Return
+	; =============================================================
 	If $g_bIsClientSyncError Then Return ; if restart after OOS, and User stop/start bot, skip this.
 
 	ClearScreen()
