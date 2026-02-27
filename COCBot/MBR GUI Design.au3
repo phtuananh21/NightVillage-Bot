@@ -366,10 +366,8 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Static $g_hGUI_STRATEGIES_TAB_ImageList = 0
 	Static $g_hGUI_BOT_TAB_ImageList = 0
 	Static $g_hGUI_STATS_TAB_ImageList = 0
-	Static $g_hGUI_BUILDERBASE_TAB_ImageList = 0
 
 	Bind_ImageList($g_hTabMain, $g_hTabMain_ImageList)
-	Bind_ImageList($g_hGUI_BUILDERBASE_TAB, $g_hGUI_BUILDERBASE_TAB_ImageList)
 
 	Bind_ImageList($g_hGUI_VILLAGE_TAB, $g_hGUI_VILLAGE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_MISC_TAB, $g_hGUI_MISC_TAB_ImageList)
