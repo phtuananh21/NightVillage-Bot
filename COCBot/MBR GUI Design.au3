@@ -51,7 +51,7 @@ Global $g_bBotDockedShrinked = False ; Bot is shrinked or not when docked
 Global $g_hFrmBotButtons, $g_hFrmBotLogoUrlSmall, $g_hFrmBotEx = 0, $g_hLblBotTitle, $g_hLblBotShrink = 0, $g_hLblBotExpand = 0, $g_hLblBotMiniGUI = 0, $g_hLblBotNormalGUI = 0 _
 		, $g_hLblBotMinimize = 0, $g_hLblBotClose = 0, $g_hFrmBotBottom = 0, $g_hFrmBotEmbeddedShield = 0, $g_hFrmBotEmbeddedShieldInput = 0, $g_hFrmBotEmbeddedGraphics = 0
 Global $g_hFrmBot_MAIN_PIC = 0, $g_hFrmBot_URL_PIC = 0, $g_hFrmBot_URL_PIC2 = 0
-Global $g_hTabMain = 0, $g_hTabLog = 0, $g_hTabVillage = 0, $g_hTabAttack = 0, $g_hTabBot = 0, $g_hTabAbout = 0
+Global $g_hTabMain = 0, $g_hTabLog = 0, $g_hTabBuilderBaseSettings = 0, $g_hTabVillage = 0, $g_hTabAttack = 0, $g_hTabBot = 0, $g_hTabAbout = 0
 Global $g_hStatusBar = 0
 Global $g_hTiShow = 0, $g_hTiHide = 0, $g_hTiDonate = 0, $g_hTiAbout = 0, $g_hTiStartStop = 0, $g_hTiPause = 0, $g_hTiExit = 0
 Global $g_aFrmBotPosInit[8] = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -68,6 +68,7 @@ Global $g_oGuiNotInMini = ObjCreate("Scripting.Dictionary")
 #include "GUI\MBR GUI Design Attack.au3"
 #include "GUI\MBR GUI Design Bot.au3"
 #include "GUI\MBR GUI Design About.au3"
+#include "GUI\MBR GUI Design BuilderBase.au3"
 
 Func CreateMainGUI()
 
@@ -317,18 +318,12 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_03", "Loading Log tab..."))
 	CreateLogTab()
 
-	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_04", "Loading Village tab..."))
-	CreateVillageTab()
-
-	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_05", "Loading Attack tab..."))
-	CreateAttackTab()
+	SplashStep("Loading Builder Base Settings tab...")
+	CreateBuilderBaseTab()
 
 	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_06", "Loading Bot tab..."))
 	CreateBotTab() ; also creates  $g_hLastControlToHide
 	If Not $bGuiModeUpdate Then DistributorsUpdateGUI() ; Now loading Distributors (during GUI switch it must be called outside CreateMainGUIControls()!)
-
-	SplashStep(GetTranslatedFileIni("MBR GUI Design - Loading", "SplashStep_07", "Loading About Us tab..."))
-	CreateAboutTab()
 
 	Local $sStepText = ""
 	Switch $g_iGuiMode
@@ -343,20 +338,12 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 ;~ GUI Main Tab Control
 ;~ ------------------------------------------------------
 	GUISwitch($g_hFrmBotEx)
-	$g_hTabMain = GUICtrlCreateTab(5, 85 + $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH - 9, $_GUI_MAIN_HEIGHT - 225) ; , $TCS_MULTILINE)
+	$g_hTabMain = GUICtrlCreateTab(5, 85 + $_GUI_MAIN_TOP, $_GUI_MAIN_WIDTH - 9, $_GUI_MAIN_HEIGHT - 225)
 	$g_hTabLog = GUICtrlCreateTabItem("Builder Base Log")
-	$g_hTabVillage = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_02", "Village"))
-	$g_hTabAttack = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_03", "Attack Plan"))
+	$g_hTabBuilderBaseSettings = GUICtrlCreateTabItem("Builder Settings")
 	$g_hTabBot = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_04", "Bot"))
-	$g_hTabAbout = GUICtrlCreateTabItem(GetTranslatedFileIni("MBR Main GUI", "Tab_05", "About Us"))
 	GUICtrlCreateTabItem("")
 	GUICtrlSetResizing(-1, $GUI_DOCKBORDERS)
-
-	; === BUILDER HALL ONLY MODE: Hide unused tabs ===
-	GUICtrlSetState($g_hTabVillage, $GUI_HIDE)
-	GUICtrlSetState($g_hTabAttack, $GUI_HIDE)
-	GUICtrlSetState($g_hTabAbout, $GUI_HIDE)
-	; ================================================
 
 ;~ -------------------------------------------------------------
 ;~ GUI init
@@ -379,8 +366,10 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Static $g_hGUI_STRATEGIES_TAB_ImageList = 0
 	Static $g_hGUI_BOT_TAB_ImageList = 0
 	Static $g_hGUI_STATS_TAB_ImageList = 0
+	Static $g_hGUI_BUILDERBASE_TAB_ImageList = 0
 
 	Bind_ImageList($g_hTabMain, $g_hTabMain_ImageList)
+	Bind_ImageList($g_hGUI_BUILDERBASE_TAB, $g_hGUI_BUILDERBASE_TAB_ImageList)
 
 	Bind_ImageList($g_hGUI_VILLAGE_TAB, $g_hGUI_VILLAGE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_MISC_TAB, $g_hGUI_MISC_TAB_ImageList)

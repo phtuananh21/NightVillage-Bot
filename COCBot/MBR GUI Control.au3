@@ -1700,48 +1700,25 @@ Func tabMain()
 	If $g_iGuiMode <> 1 Then Return
 	Local $tabidx = GUICtrlRead($g_hTabMain)
 	Select
-		Case $tabidx = 0 ; Log
-			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
+		Case $tabidx = 0 ; Builder Base Log
+			GUISetState(@SW_HIDE, $g_hGUI_BUILDERBASE)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_LOG)
 
-		Case $tabidx = 1 ; Village
+		Case $tabidx = 1 ; Builder Settings
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
-			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_VILLAGE)
-			tabVillage()
+			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_BUILDERBASE)
 
-		Case $tabidx = 2 ; Attack
+		Case $tabidx = 2 ; Bot Options
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
-			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ATTACK)
-			tabAttack()
-
-		Case $tabidx = 3 ; Options
-			GUISetState(@SW_HIDE, $g_hGUI_LOG)
-			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
-			GUISetState(@SW_HIDE, $g_hGUI_ABOUT)
+			GUISetState(@SW_HIDE, $g_hGUI_BUILDERBASE)
 			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_BOT)
 			tabBot()
 
-		Case $tabidx = 4 ; About
-			GUISetState(@SW_HIDE, $g_hGUI_LOG)
-			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
-			GUISetState(@SW_HIDE, $g_hGUI_BOT)
-			GUISetState(@SW_SHOWNOACTIVATE, $g_hGUI_ABOUT)
-
 		Case Else
 			GUISetState(@SW_HIDE, $g_hGUI_LOG)
-			GUISetState(@SW_HIDE, $g_hGUI_VILLAGE)
-			GUISetState(@SW_HIDE, $g_hGUI_ATTACK)
+			GUISetState(@SW_HIDE, $g_hGUI_BUILDERBASE)
 			GUISetState(@SW_HIDE, $g_hGUI_BOT)
 	EndSelect
 
