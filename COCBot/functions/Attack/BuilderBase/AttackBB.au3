@@ -509,9 +509,6 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 		EndIf
 	Next
 
-	; BB 2.0: Activate troop ability immediately after deploying (skips BM/Copter = handled by CheckBMLoop)
-	ActivateTroopAbility($sName, $x, $y)
-
 EndFunc   ;==>DeployBBTroop
 
 ; ---------------------------------------------------------------
@@ -584,26 +581,24 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 
 		If QuickMIS("BC1", $g_sImgDirMachineAbility, $aBMPos[0] - 35, $aBMPos[1] - 40, $aBMPos[0] + 35, $aBMPos[1] + 40) Then
 			If StringInStr($g_iQuickMISName, "Wait") Then
-				; Ability spent/recharging - reset 3-charge timer
-				$bWaiting = False
+				; Recharging - do NOT reset timer, just skip this iteration
 				ExitLoop
 			ElseIf StringInStr($g_iQuickMISName, "Ability") Then
-				; Ability is charged and ready
+				; Ability is ready
 				If Not $bWaiting Then
-					; First time we see Ability ready = charge 1 accumulated
 					$bWaiting = True
 					$tFirstReady = TimerInit()
-					SetLog($MachineName & " Ability ready (charge 1), waiting for charge 3...", $COLOR_INFO)
+					SetLog($MachineName & " Ability ready, waiting 20s for full charge...", $COLOR_INFO)
 				EndIf
-				; Wait ~55 seconds after charge 1 becomes ready = approx 3 charges in BB 2.0
 				Local $iElapsed = Int(TimerDiff($tFirstReady) / 1000)
-				If $iElapsed >= 55 Then
+				If $iElapsed >= 20 Then
 					PureClickP($aBMPos)
-					SetLog("Activate " & $MachineName & " Ability (3 charges!)", $COLOR_SUCCESS)
+					SetLog("Activate " & $MachineName & " Ability!", $COLOR_SUCCESS)
+					; Only reset after successful click
 					$bWaiting = False
 					$tFirstReady = 0
 				Else
-					SetLog("Waiting for " & $MachineName & " charge 3 (" & $iElapsed & "/55s)...", $COLOR_DEBUG2)
+					SetLog("Waiting full charge: " & $iElapsed & "/20s", $COLOR_DEBUG2)
 				EndIf
 				ExitLoop
 			EndIf
