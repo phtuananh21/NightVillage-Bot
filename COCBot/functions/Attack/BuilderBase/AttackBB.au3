@@ -530,7 +530,7 @@ Func ActivateTroopAbility($sName, $x, $y)
 
 	; Re-select the troop slot, then wait for ability icon to appear
 	PureClick($x, $y)
-	If _Sleep(600) Then Return
+	If _Sleep(300) Then Return
 
 	; In BB 2.0, the ability button appears ~35px above the troop slot and glows gold/yellow
 	Local $iAbilityY = $y - 35
