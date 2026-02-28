@@ -370,8 +370,8 @@ Func AttackBB($aBBAttackBar = True)
 	Local $ai_SinglePoint[1]
 	$ai_SinglePoint[0] = $ai_DropPoints[Int(UBound($ai_DropPoints) / 2)]
 	$ai_DropPoints = $ai_SinglePoint
-	SetLog("Drop point: (" & $ai_DropPoints[0][0] & ", " & $ai_DropPoints[0][1] & ")", $COLOR_DEBUG)
-
+	Local $aTmpPt = $ai_DropPoints[0]
+	SetLog("Drop point: (" & $aTmpPt[0] & ", " & $aTmpPt[1] & ")", $COLOR_DEBUG)
 
 	If IsProblemAffect(True) Then Return
 
@@ -498,8 +498,7 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 				If WaitforPixel(24, 552 + $g_iBottomOffsetY, 30, 554 + $g_iBottomOffsetY, Hex($g_DeployColor[$z], 6), 30, 5) Then ;BM with Capacity
 					$g_DeployedMachine = True
 					SetLog($sName & " Deployed", $COLOR_SUCCESS)
-					PureClickP($aBMPos) ; Activate Ability
-					SetLog("Activate " & $sName & " Ability", $COLOR_SUCCESS)
+					; Ability handled by CheckBMLoop (waits for 3 charges before activating)
 					ExitLoop
 				EndIf
 				If $z = 1 And $g_bDebugImageSave Then SaveDebugImage("AttackBar")
