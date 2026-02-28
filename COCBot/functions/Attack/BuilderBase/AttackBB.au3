@@ -573,50 +573,41 @@ Func CheckBMLoop($aBMPos = $g_aMachinePos)
 		$MachineName = "Battle Machine"
 	EndIf
 
-	For $i = 1 To 5
-		If IsProblemAffect(True) Then Return
-		If Not $g_bRunState Then Return False
+	If IsProblemAffect(True) Then Return False
+	If Not $g_bRunState Then Return False
 
-		If QuickMIS("BC1", $g_sImgDirMachineAbility, $aBMPos[0] - 35, $aBMPos[1] - 40, $aBMPos[0] + 35, $aBMPos[1] + 40) Then
-			If StringInStr($g_iQuickMISName, "Wait") Then
-				; Recharging - do NOT reset timer, just skip this iteration
-				ExitLoop
-			ElseIf StringInStr($g_iQuickMISName, "Ability") Then
-				; Ability is ready
-				If Not $bWaiting Then
-					$bWaiting = True
-					$tFirstReady = TimerInit()
-					SetLog($MachineName & " Ability ready, waiting 20s for full charge...", $COLOR_INFO)
-				EndIf
-				Local $iElapsed = Int(TimerDiff($tFirstReady) / 1000)
-				If $iElapsed >= 20 Then
-					PureClickP($aBMPos)
-					SetLog("Activate " & $MachineName & " Ability!", $COLOR_SUCCESS)
-					; Only reset after successful click
-					$bWaiting = False
-					$tFirstReady = 0
-				Else
-					SetLog("Waiting full charge: " & $iElapsed & "/20s", $COLOR_DEBUG2)
-				EndIf
-				ExitLoop
+	If QuickMIS("BC1", $g_sImgDirMachineAbility, $aBMPos[0] - 35, $aBMPos[1] - 40, $aBMPos[0] + 35, $aBMPos[1] + 40) Then
+		If StringInStr($g_iQuickMISName, "Wait") Then
+			; Recharging - do NOT reset timer, just return
+			Return True
+		ElseIf StringInStr($g_iQuickMISName, "Ability") Then
+			; Ability is ready
+			If Not $bWaiting Then
+				$bWaiting = True
+				$tFirstReady = TimerInit()
+				SetLog($MachineName & " Ability ready, waiting 20s for full charge...", $COLOR_INFO)
 			EndIf
+			Local $iElapsed = Int(TimerDiff($tFirstReady) / 1000)
+			If $iElapsed >= 20 Then
+				PureClickP($aBMPos)
+				SetLog("Activate " & $MachineName & " Ability!", $COLOR_SUCCESS)
+				; Only reset after successful click
+				$bWaiting = False
+				$tFirstReady = 0
+			Else
+				SetLog("Waiting full charge: " & $iElapsed & "/20s", $COLOR_DEBUG2)
+			EndIf
+			Return True
 		EndIf
+	EndIf
 
-		$BMDeadColor = _GetPixelColor($BMDeadX, $BMDeadY, True)
-		If _ColorCheck($BMDeadColor, Hex(0x4E4E4E, 6), 20, Default) Then
-			SetLog($MachineName & " is Dead", $COLOR_DEBUG2)
-			$bWaiting = False
-			Return False
-		EndIf
+	$BMDeadColor = _GetPixelColor($BMDeadX, $BMDeadY, True)
+	If _ColorCheck($BMDeadColor, Hex(0x4E4E4E, 6), 20, Default) Then
+		SetLog($MachineName & " is Dead", $COLOR_DEBUG2)
+		$bWaiting = False
+		Return False
+	EndIf
 
-		If $BMDeadColor = "000000" Then
-			ExitLoop
-		EndIf
-
-		If _Sleep(500) Then Return
-		If $loopcount > 60 Then Return ;1 minute
-		$loopcount += 1
-	Next
 	Return True
 EndFunc   ;==>CheckBMLoop
 
