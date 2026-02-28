@@ -22,20 +22,5 @@ A focused, Builder Base–only Clash of Clans automation bot based on MyBot/Buil
 2. Go to Builder Base, make sure you can attack
 3. Run `BuilderHall.au3` (or compiled `BuilderHall.exe`) with AutoIt
 
-## Changelog
-
-### v1.2.0
-- Drop all troops at a single corner point (instead of spreading across the wall)
-- BM/Copter ability: wait 20s after charge 1 (timer no longer resets on "Wait" detection)
-- Troop ability (Witch, Cannon Cart, etc.): click immediately after deploy
-- Faster deploy: NextTroopDelay 300ms, SameTroopDelay 100ms
-
-### v1.1.0
-- Builder Base–only UI (hides Attack Log, shows only BB-relevant tabs)
-- Focus on BB automation loop
-
-### v1.0.0
-- Initial release based on MyBot/BuilderHall
-
 ## License
 GNU General Public License v3 – see [LICENSE](LICENSE)
