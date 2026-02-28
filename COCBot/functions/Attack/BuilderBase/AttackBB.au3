@@ -509,6 +509,9 @@ Func DeployBBTroop($sName, $x, $y, $iAmount, $ai_AttackDropPoints)
 		EndIf
 	Next
 
+	; BB 2.0: Activate troop ability immediately after deploying (Witch, CannonCart, etc. have instant abilities)
+	ActivateTroopAbility($sName, $x, $y)
+
 EndFunc   ;==>DeployBBTroop
 
 ; ---------------------------------------------------------------
@@ -516,30 +519,25 @@ EndFunc   ;==>DeployBBTroop
 ; Checks a pixel ~35px above the troop slot for a bright golden ability icon.
 ; ---------------------------------------------------------------
 Func ActivateTroopAbility($sName, $x, $y)
-	; Only troops with active abilities in BB 2.0
+	; Only troops with instant active abilities in BB 2.0
 	Local $bHasAbility = StringInStr($sName, "CannonCart") Or StringInStr($sName, "DropShip") Or _
 						StringInStr($sName, "Witch") Or StringInStr($sName, "BoxerGiant") Or _
 						StringInStr($sName, "SuperPekka") Or StringInStr($sName, "ElectroWizard") Or _
 						StringInStr($sName, "BabyDrag") Or StringInStr($sName, "HogGlider")
 	If Not $bHasAbility Then Return
-
 	If Not $g_bRunState Then Return
 
-	; Re-select the troop slot, then wait for ability icon to appear
+	; Re-select the troop slot so the ability button appears
 	PureClick($x, $y)
-	If _Sleep(300) Then Return
+	If _Sleep(200) Then Return
 
-	; In BB 2.0, the ability button appears ~35px above the troop slot and glows gold/yellow
+	; Click the ability button (appears ~35px above the troop slot)
 	Local $iAbilityY = $y - 35
-	Local $sAbilityPx = _GetPixelColor($x, $iAbilityY, True)
-	If $g_bDebugSetLog Then SetLog("BB Ability pixel (" & $x & "," & $iAbilityY & ") = " & $sAbilityPx, $COLOR_DEBUG)
-
-	If _ColorCheck($sAbilityPx, Hex(0xFFD020, 6), 55, Default) Then
-		PureClick($x, $iAbilityY)
-		SetLog("Activate " & $sName & " Ability!", $COLOR_SUCCESS)
-	Else
-		SetLog("No ability icon for " & $sName & " (px=" & $sAbilityPx & ")", $COLOR_DEBUG)
+	If $g_bDebugSetLog Then
+		SetLog("BB Ability click (" & $x & "," & $iAbilityY & ") px=" & _GetPixelColor($x, $iAbilityY, True), $COLOR_DEBUG)
 	EndIf
+	PureClick($x, $iAbilityY)
+	SetLog("Activate " & $sName & " Ability!", $COLOR_SUCCESS)
 EndFunc   ;==>ActivateTroopAbility
 
 Func GetMachinePos()
