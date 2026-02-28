@@ -1,44 +1,41 @@
-﻿﻿ What is it?
-  -----------
-- A Free Clash of Clans bot. 
-- A bot is a general term in gaming that is used to refer to a character controlled by a computer.
-- https://mybot.run
+﻿﻿# BuilderHall – Clash of Clans Builder Base Bot
 
-The Latest Version
-  ------------------
-- Details of the latest version can be found on the MyBot forum under https://mybot.run/forums/index.php?/forum/4-official-releases/
+A focused, Builder Base–only Clash of Clans automation bot based on MyBot/BuilderHall.
 
-Documentation
-  -------------
-- How to Start Bot - https://mybot.run/forums/index.php?/topic/4978-guide-how-to-use-the-bot/
-- How to Report Bug/Help - https://mybot.run/forums/index.php?/forum/20-bug-reporting/
+## What it does
+- Automatically attacks in **Builder Base 2.0**
+- Deploys all troops to a **single corner point** each battle
+- **Smart ability system:**
+  - Battle Machine / Battle Copter: waits ~20s after first charge before activating (fuller rage bar)
+  - Night Witch, Cannon Cart, Drop Ship, etc.: activates ability immediately after deployment
+  - Bomber: ability activated when ready (existing logic)
+- Fast troop deployment (300ms between troop types, 100ms between same-type troops)
 
-Installation
-  ------------
-Essential software :
-- Windows Vista/7/8/8.1/10
-- Microsoft Visual C++ 2010 Redistributable Package (x86)
-- Microsoft .NET Framework 4.5
-- Android Emulator , more infor : \COCBot\functions\Android\Android Status & Information.txt
-- The latest drivers for your graphics device
-- MyBot last version avaiable
-- DON´T USE THE OLD CONFIG FILES
+## Requirements
+- Windows 10/11
+- [AutoIt v3](https://www.autoitscript.com/site/autoit/downloads/)
+- BlueStacks 5 (or compatible Android emulator)
+- Clash of Clans installed on emulator
 
-Licensing
-  ---------
-Please see the file called LICENSE.
-- MyBot autoit code is open sourced under GNU GENERAL PUBLIC LICENSE v3
-- http://www.gnu.org/licenses/gpl-3.0.txt
+## Setup
+1. Open BlueStacks and launch Clash of Clans
+2. Go to Builder Base, make sure you can attack
+3. Run `BuilderHall.au3` (or compiled `BuilderHall.exe`) with AutoIt
 
-- Curl.exe - curl is an open source command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, Gopher, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, POP3, POP3S, RTMP, RTSP, SCP, SFTP, SMB, SMTP, SMTPS, Telnet and TFTP. curl supports SSL certificates, HTTP POST, HTTP PUT, FTP uploading, HTTP form based upload, proxies, HTTP/2, cookies, user+password authentication (Basic, Plain, Digest, CRAM-MD5, NTLM, Negotiate and Kerberos), file transfer resume, proxy tunneling and more. This executable is used in our software because Pushbullet.
-  http://curl.haxx.se/
+## Changelog
 
-Mybot uses non-GPL/GPL 3rd party libraries for extension (#SystemLibraryException): 
-- OpenCV - BSD license - repository : https://github.com/MyBotRun/Libraries
-- ImageSearch - GNU license - repository : https://github.com/MyBotRun/Libraries
-- MyBotRunImgLoc.dll - Functional library from the Developer TRlopes 2016 , The owner can restrict use, inspection of source code, modification of source code, and redistribution.
-- Functional library MBRfunctions.dll - Proprietary library from the Developer Didipe 2015
+### v1.2.0
+- Drop all troops at a single corner point (instead of spreading across the wall)
+- BM/Copter ability: wait 20s after charge 1 (timer no longer resets on "Wait" detection)
+- Troop ability (Witch, Cannon Cart, etc.): click immediately after deploy
+- Faster deploy: NextTroopDelay 300ms, SameTroopDelay 100ms
 
-Contacts
-  --------
-- https://mybot.run/forums/index.php?/contact/
+### v1.1.0
+- Builder Base–only UI (hides Attack Log, shows only BB-relevant tabs)
+- Focus on BB automation loop
+
+### v1.0.0
+- Initial release based on MyBot/BuilderHall
+
+## License
+GNU General Public License v3 – see [LICENSE](LICENSE)
